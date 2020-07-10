@@ -1,3 +1,10 @@
+dell-recovery (1.61~somerville9) focal; urgency=medium
+
+  * cherry-pick 25c29cfde546de58d32192e5de11e197d6857e50
+    * fix issue #113: ignore ubiquity uninstallation
+
+ -- Alex Tu <alex.tu@canonical.com>  Wed, 23 Dec 2020 13:59:21 +0800
+
 dell-recovery (1.61~somerville8) bionic; urgency=medium
 
   * Do not wake up network at stage 2 (issue #114).
