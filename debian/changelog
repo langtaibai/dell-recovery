@@ -1,3 +1,21 @@
+dell-recovery (1.64somerville9) UNRELEASED; urgency=medium
+
+  [ Crag Wang ]
+  * stage2: remove directory $TARGET/pts
+
+  [ Yuan-Chen Cheng ]
+  * ubiquity/dell-bootstrap.py: delay 5 seconds in dev mode to make it more
+    reliable, especially for Recovery from hdd.
+
+  [ Shih-Yuan Lee (FourDollars)]
+  * Try to install the platform factory meta package automatically.
+
+  [ Mario Limonciello ]
+  * Fix a crash in about dialog (LP: #1795705)
+  * fix some issues with new pyflakes (LP: #1890819)
+
+ -- Alex Tu <alex.tu@canonical.com>  Fri, 25 Sep 2020 16:27:24 +0800
+
 dell-recovery (1.64somerville8) focal; urgency=medium
 
   [ Yuan-Chen Cheng ]
@@ -7,7 +25,7 @@ dell-recovery (1.64somerville8) focal; urgency=medium
   [ Alex Tu ]
   * change NetworkManager dbus method from Sleep to Enable (Close #114)
 
- -- Alex Tu <alex.tu@canonical.com>  Mon, 10 Aug 2020 14:01:37 +0800
+ -- Alex Tu <alex.tu@canonical.com>  Mon, 10 Aug 2020 13:52:35 +0800
 
 dell-recovery (1.64somerville7) focal; urgency=medium
 

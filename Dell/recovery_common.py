@@ -650,7 +650,7 @@ def parse_seed(seed):
                     line.pop(0) # ubiquity or d-i generally
                     key = line.pop(0)
                     if '/' in key:
-                        type = line.pop(0)
+                        line.pop(0)
                         value = " ".join(line)
                         keys[key] = value
                 line = rfd.readline()
@@ -776,7 +776,7 @@ def dbus_sync_call_signal_wrapper(dbus_iface, func, handler_map, *args, **kwargs
     dbus_iface.get_dbus_method(func)(*args, **kwargs)
     loop.run()
     if _h_exception_exc:
-        raise _h_exception_exc
+        raise _h_exception_exc # pylint: disable=raising-bad-type
     return _h_reply_result
 
 
@@ -795,7 +795,7 @@ def regenerate_md5sum(root_dir,sec_dir=None):
     root_list = []
     #some files don't need to check md5
     uncheck_list = ["md5sum.txt","grubenv"]
-    for root,dirs,files in os.walk(root_dir):
+    for root,dirs,files in os.walk(root_dir): # pylint: disable=unused-variable
         for f in files:
             if f not in uncheck_list:
                 root_list.append(os.path.join(root,f))

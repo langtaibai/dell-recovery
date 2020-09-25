@@ -250,12 +250,14 @@ class PageGtk(PluginUI):
                 self.interactive_recovery.set_sensitive(False)
                 self.automated_recovery.set_sensitive(False)
                 self.dhc_automated_recovery.set_sensitive(False)
-            if value == "dev" and (not hdd_flag):
+            if value == "dev" and (not hdd_flag): # USB installation, stage 2
                 self.automated_recovery.set_active(True)
-                self.controller.go_forward()
-            elif value == "dev" and hdd_flag:
+                self.controller.allow_go_forward(True)
+                GLib.timeout_add(5000, self.controller.go_forward)
+            elif value == "dev" and hdd_flag: # Recovery from hdd.
                 self.hdd_recovery.set_active(True)
-                self.controller.go_forward()
+                self.controller.allow_go_forward(True)
+                GLib.timeout_add(5000, self.controller.go_forward)
             else:
                 self.controller.allow_go_forward(False)
 
@@ -805,7 +807,7 @@ class Page(Plugin):
         #Amount of memory in the system
         self.mem = 0
         if os.path.exists('/sys/firmware/memmap'):
-            for root, dirs, files in os.walk('/sys/firmware/memmap', topdown=False):
+            for root, dirs, files in os.walk('/sys/firmware/memmap', topdown=False): # pylint: disable=unused-variable
                 if os.path.exists(os.path.join(root, 'type')):
                     with open(os.path.join(root, 'type')) as rfd:
                         type = rfd.readline().strip('\n')
@@ -902,7 +904,7 @@ class Page(Plugin):
         self.log("selected device %s %d" % (device, size))
 
         return Plugin.ok_handler(self)
-    
+
     def report_progress(self, info, percent):
         """Reports to the frontend an update about th progress"""
         self.frontend.debconf_progress_info(info)
