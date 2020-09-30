@@ -1,4 +1,4 @@
-dell-recovery (1.64somerville9) UNRELEASED; urgency=medium
+dell-recovery (1.64somerville9) focal; urgency=medium
 
   [ Crag Wang ]
   * stage2: remove directory $TARGET/pts
@@ -17,7 +17,7 @@ dell-recovery (1.64somerville9) UNRELEASED; urgency=medium
   [ Alex Tu ]
   * bump version and release for factory image.
 
- -- Alex Tu <alex.tu@canonical.com>  Fri, 25 Sep 2020 16:27:24 +0800
+ -- Alex Tu <alex.tu@canonical.com>  Wed, 30 Sep 2020 11:21:41 +0800
 
 dell-recovery (1.64somerville8) focal; urgency=medium
 
