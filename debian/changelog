@@ -1,4 +1,4 @@
-dell-recovery (1.61~somerville9) focal; urgency=medium
+dell-recovery (1.61~somerville9) bionic; urgency=medium
 
   * cherry-pick 25c29cfde546de58d32192e5de11e197d6857e50
     * fix issue #113: ignore ubiquity uninstallation
