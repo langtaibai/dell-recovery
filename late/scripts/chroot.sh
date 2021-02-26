@@ -120,9 +120,14 @@ fi
 #Make sure fifuncs and target_chroot are available
 if [ ! -d $TARGET/usr/share/dell/scripts ]; then
     mkdir -p $TARGET/usr/share/dell/scripts
-    DIR_CLEANUP="$TARGET/usr/share/dell/scripts $DIR_CLEANUP"
     mount --bind /usr/share/dell/scripts $TARGET/usr/share/dell/scripts
+    DIR_CLEANUP="$TARGET/usr/share/dell/scripts $DIR_CLEANUP"
     MOUNT_CLEANUP="$TARGET/usr/share/dell/scripts $MOUNT_CLEANUP"
+fi
+if [ ! -d $TARGET/usr/share/dell/scripts-initramfs ]; then
+    mkdir -p $TARGET/usr/share/dell/scripts-initramfs
+    mount --bind /usr/share/dell/scripts-initramfs $TARGET/usr/share/dell/scripts-initramfs
+    MOUNT_CLEANUP="$TARGET/usr/share/dell/scripts-initramfs $MOUNT_CLEANUP"
 fi
 
 #If we are loop mounted, this will have been done during the ubiquity
