@@ -18,6 +18,7 @@ dell-recovery (1.64somerville9) focal; urgency=medium
   [ Yuan-Chen Cheng ]
   * ubiquity/dell-bootstrap.py: delay 5 seconds in dev mode to make it more
     reliable, especially for Recovery from hdd.
+  * add seed value for minimal recovery partition size.
 
   [ Shih-Yuan Lee (FourDollars)]
   * Try to install the platform factory meta package automatically.
