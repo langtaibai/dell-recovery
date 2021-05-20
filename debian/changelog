@@ -1,3 +1,9 @@
+dell-recovery (1.64somerville12) focal; urgency=medium
+
+  * add seed value for minimal recovery partition size.
+
+ -- Yuan-Chen Cheng <yc.cheng@canonical.com>  Thu, 20 May 2021 15:50:27 +0800
+
 dell-recovery (1.64somerville11) focal; urgency=medium
 
   * Getting BIOS ID from the subsystem device of i2c device. (LP: #1917603)
@@ -18,7 +24,6 @@ dell-recovery (1.64somerville9) focal; urgency=medium
   [ Yuan-Chen Cheng ]
   * ubiquity/dell-bootstrap.py: delay 5 seconds in dev mode to make it more
     reliable, especially for Recovery from hdd.
-  * add seed value for minimal recovery partition size.
 
   [ Shih-Yuan Lee (FourDollars)]
   * Try to install the platform factory meta package automatically.
