@@ -1,3 +1,9 @@
+dell-recovery (1.64somerville13) focal; urgency=medium
+
+  * support Intel and AMD dev board (Closes #138)
+
+ -- Alex Tu <alex.tu@canonical.com>  Wed, 16 Jun 2021 23:41:41 +0800
+
 dell-recovery (1.64somerville12) focal; urgency=medium
 
   * add seed value for minimal recovery partition size.
