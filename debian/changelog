@@ -1,3 +1,9 @@
+dell-recovery (1.64somerville15) focal; urgency=medium
+
+  * update dell-recovery UI copyright and fix help link not found document issue
+
+ -- Crag Wang <crag.wang@dell.com>  Fri, 19 Nov 2021 11:36:53 +0800
+
 dell-recovery (1.64somerville14) focal; urgency=medium
 
   * Nobulate after target_chroot.sh again to ensure the BootOrder is correct. (LP: #1933953)
