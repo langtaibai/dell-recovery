@@ -1,0 +1,25 @@
+name: Release tagged builds
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  linux:
+    name: ubuntu
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Refresh dependencies
+        run: sudo apt update
+      - name: Install dependencies
+        run: DEBIAN_FRONTEND=noninteractive sudo apt-get install -yq --no-install-recommends build-essential debhelper dh-python dpkg-dev python3 python3-distutils-extra po-debconf pyflakes3 lsb-release gnu-efi
+      - name: Build package
+        run: dpkg-buildpackage --no-sign
+      - name: release build
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: '../dell-recovery*.deb'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          allowUpdates: true
+          draft: true
