@@ -9,6 +9,8 @@ jobs:
     name: ubuntu
     runs-on: ubuntu-20.04
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Reuse main workflow for artifacts
         uses: ./.github/workflows/main.yml
       - name: Upload artifacts to release asset
