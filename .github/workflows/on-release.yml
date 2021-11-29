@@ -9,9 +9,12 @@ jobs:
     name: ubuntu
     runs-on: ubuntu-20.04
     steps:
-      - name: Regular run
-        uses: ./.github/workflows/action.yml
-      - name: Draft release on tags
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: Regular Action
+        uses: ./.github/workflows
+
+      - name: Draft Release
         uses: softprops/action-gh-release@v1
         with:
           files: ../dell-recovery*.deb
