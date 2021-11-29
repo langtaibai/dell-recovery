@@ -1,15 +1,17 @@
 name: Draft Release
 on:
-  release:
-    types: [created]
+  push:
+    tags:
+      "*"
 
 jobs:
   deploy-release:
     name: ubuntu
     runs-on: ubuntu-20.04
     steps:
-      - uses: ./.github/workflows/action.yml
-      - name: upload release asset
+      - name: Regular run
+        uses: ./.github/workflows/action.yml
+      - name: Draft release on tags
         uses: softprops/action-gh-release@v1
         with:
           files: ../dell-recovery*.deb
