@@ -4,8 +4,29 @@ on:
   pull_request:
 
 jobs:
-  build:
+  build-all:
+    name: Build
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/workflows/build_all
+      - uses: actions/upload-artifact@v2
+        with:
+          name: dell-recovery*.deb
+          path: ../
+  draft-release:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: build_all
+    name: Draft Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: dell-recovery*.deb
+      - uses: softprops/action-gh-release@v1
+        with:
+          files: dell-recovery*.deb
+          draft: true
+          generate_release_notes: true
+          body_path: ./debian/changelog
