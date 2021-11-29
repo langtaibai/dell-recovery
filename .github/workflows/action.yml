@@ -1,24 +1,23 @@
-name: release assets
+name: Continuous Integration
 on:
   push:
-    tags:
-      - '*'
+    branches:
+      "**"
+  pull_request:
+    branches:
+      "**"
 
 jobs:
-  linux:
-    name: ubuntu
+  build:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
-      - name: refresh dependencies
-        run: sudo apt update
-      - name: install dependencies
-        run: DEBIAN_FRONTEND=noninteractive sudo apt-get install -yq --no-install-recommends build-essential debhelper dh-python dpkg-dev python3 python3-distutils-extra po-debconf pyflakes3 lsb-release gnu-efi
-      - name: build package
-        run: dpkg-buildpackage --no-sign
-      - name: upload release asset
-        uses: softprops/action-gh-release@v1
         with:
-          files: ../dell-recovery*.deb
-          draft: true
-          generate_release_notes: true
+          fetch-depth: 0
+      - name: Refresh dependencies
+        run: sudo apt update
+      - name: Install dependencies
+        run: DEBIAN_FRONTEND=noninteractive sudo apt-get install -yq --no-install-recommends build-essential debhelper dh-python dpkg-dev python3 python3-distutils-extra po-debconf pyflakes3 lsb-release gnu-efi
+      - name: Build package
+        run: dpkg-buildpackage --no-sign
+
