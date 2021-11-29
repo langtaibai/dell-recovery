@@ -8,23 +8,40 @@ jobs:
     name: Build
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: ./.github/workflows/build_all
-      - uses: actions/upload-artifact@v2
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: Install Dependencies
+        shell: bash
+        run: |
+          sudo apt update
+          DEBIAN_FRONTEND=noninteractive sudo apt-get install -yq --no-install-recommends build-essential debhelper dh-python dpkg-dev python3 python3-distutils-extra po-debconf pyflakes3 lsb-release gnu-efi
+      - name: Build Debian Packages
+        shell: bash
+        run: dpkg-buildpackage --no-sign
+      - name: Move Artifacts
+        shell: bash
+        run: |
+          mkdir ./dist
+          cp ../dell-recovery*.deb ./dist/
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
         with:
-          name: dell-recovery*.deb
-          path: ${{ github.workspace }}
+          name: dell-recovery
+          path: ./dist
   draft-release:
     if: startsWith(github.ref, 'refs/tags/')
     needs: build-all
     name: Draft Release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: Download Artifacts
+        uses: actions/download-artifact@v2
         with:
-          name: dell-recovery*.deb
-      - uses: softprops/action-gh-release@v1
+          name: dell-recovery
+      - name: Draft Release
+        uses: softprops/action-gh-release@v1
         with:
           files: dell-recovery*.deb
           draft: true
