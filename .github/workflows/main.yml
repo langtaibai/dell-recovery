@@ -13,10 +13,10 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: dell-recovery*.deb
-          path: ../
+          path: ${{ github.workspace }}
   draft-release:
     if: startsWith(github.ref, 'refs/tags/')
-    needs: build_all
+    needs: build-all
     name: Draft Release
     runs-on: ubuntu-latest
     steps:
