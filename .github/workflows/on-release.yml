@@ -5,18 +5,18 @@ on:
       "*"
 
 jobs:
-  deploy-release:
+  build:
     name: ubuntu
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
-      - name: Regular Action
-        uses: ./.github/workflows
-
+      - name: Build Release
+        uses: ./.github/workflows/build_all
       - name: Draft Release
         uses: softprops/action-gh-release@v1
         with:
           files: ../dell-recovery*.deb
           draft: true
           generate_release_notes: true
+          boty_path: ./debian/changelog
