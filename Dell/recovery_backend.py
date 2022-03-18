@@ -959,108 +959,71 @@ arch %s, distributor_str %s, bto_platform %s" % (bto_version, distributor, relea
         self.xml_obj.replace_node_contents('generator', check_version())
         self.xml_obj.write_xml(os.path.join(tmpdir, 'bto.xml'))
 
-        #Arg list
-        xorrisoargs = ['xorriso',
-                       '-as', 'mkisofs',
-                       '-R',
-                       '-r',
-                       '-J',
-                       '-joliet-long',
-                       '-l',
-                       '-iso-level', '3',
-                       '-sysid', 'Linux',
-                       '-V', 'Dell Recovery Media',
-                       '-A', 'Dell Recovery',
-                       '-p', 'Dell',
-                       '-publisher', 'Dell',
-                       '-o', iso,
-                       '-m', '*.exe',
-                       '-m', '*.sys',
-                       '-m', '*.SDR',
-                       '-m', 'SDR',
-                       '-m', 'syslinux',
-                       '-m', 'syslinux.cfg',
-                       '-m', os.path.join(mntdir, 'bto.xml'),
-                       '-m', os.path.join(mntdir, 'bto_version')]
+        # It needs to follow /usr/share/cd-boot-images-amd64/xorriso-cmd.txt to build the ISO image.
+        xorrisoargs = [
+            'xorriso',
+            '-publisher', 'Dell',
+            '-application_id', 'Dell Recovery',
+            '-preparer_id', 'Dell',
+            '-as', 'mkisofs',
+            '-J', '-joliet-long', '-l',
+            '-b', 'boot/grub/i386-pc/eltorito.img',
+            '-no-emul-boot',
+            '-boot-load-size', '4', '-boot-info-table',
+            '--grub2-boot-info',
+            '--grub2-mbr', '/usr/share/cd-boot-images-amd64/images/boot/grub/i386-pc/boot_hybrid.img',
+            '-append_partition', '2', '0xef', '/usr/share/cd-boot-images-amd64/images/boot/grub/efi.img', '-appended_part_as_gpt',
+            '--mbr-force-bootable', '-eltorito-alt-boot',
+            '-e', '--interval:appended_partition_2:all::', '-no-emul-boot', '-partition_offset', '16', '-r',
+            '/usr/share/cd-boot-images-amd64/tree',
+            '-o', str(iso),
+            '-m', '*.exe',
+            '-m', '*.sys',
+            '-m', '*.SDR',
+            '-m', 'SDR',
+            '-m', os.path.join(mntdir, 'bto.xml'),
+            '-m', os.path.join(mntdir, 'bto_version')]
 
         if platform and revision:
             xorrisoargs.append('-volset')
             xorrisoargs.append(platform + ' ' + revision)
+            xorrisoargs.append('-volid')
+            if len(f'Dell Recovery Media {platform} {revision}') <= 32:
+                xorrisoargs.append(f'Dell Recovery Media {platform} {revision}')
+            elif len(f'Dell Recovery {platform} {revision}') <= 32:
+                xorrisoargs.append(f'Dell Recovery {platform} {revision}')
+            elif len(f'Dell {platform} {revision}') <= 32:
+                xorrisoargs.append(f'Dell {platform} {revision}')
+            else:
+                xorrisoargs.append('Dell Recovery Media')
+        else:
+            xorrisoargs.append('-volid')
+            xorrisoargs.append('Dell Recovery Media')
 
-        if os.path.exists(os.path.join('/', 'usr', 'lib', 'ISOLINUX', 'isohdpfx.bin')) and \
-            os.path.exists(os.path.join(mntdir, 'isolinux', 'boot.cat')) and \
-            os.path.exists(os.path.join(mntdir, 'isolinux', 'isolinux.bin')):
-            xorrisoargs.append('-c')
-            xorrisoargs.append('isolinux/boot.cat')
-            xorrisoargs.append('-b')
-            xorrisoargs.append('isolinux/isolinux.bin')
-            xorrisoargs.append('-no-emul-boot')
-            xorrisoargs.append('-boot-load-size')
-            xorrisoargs.append('4')
-            xorrisoargs.append('-boot-info-table')
-            xorrisoargs.append('-isohybrid-mbr')
-            xorrisoargs.append(os.path.join('/', 'usr', 'lib', 'ISOLINUX', 'isohdpfx.bin'))
-
-        #include bootloader as eltorito if we have it
-        if os.path.exists(os.path.join(mntdir, 'boot', 'grub', 'efi.img')):
-            xorrisoargs.append('-eltorito-alt-boot')
-            xorrisoargs.append('-e')
-            xorrisoargs.append('boot/grub/efi.img')
-            xorrisoargs.append('-no-emul-boot')
-            xorrisoargs.append('-isohybrid-gpt-basdat')
-        elif os.path.exists(os.path.join(mntdir, 'boot', 'efi.img')):
-            xorrisoargs.append('-eltorito-alt-boot')
-            xorrisoargs.append('-e')
-            xorrisoargs.append('boot/efi.img')
-            xorrisoargs.append('-no-emul-boot')
-            xorrisoargs.append('-isohybrid-gpt-basdat')
-        elif os.path.exists(os.path.join(mntdir, 'boot', '_efi.img')):
-            xorrisoargs.append('-partition_offset')
-            xorrisoargs.append('16')
-            xorrisoargs.append('-append_partition')
-            xorrisoargs.append('2')
-            xorrisoargs.append('0xEF')
-            xorrisoargs.append(os.path.join(mntdir, 'boot', '_efi.img'))
-            xorrisoargs.append('-appended_part_as_gpt')
-            xorrisoargs.append('-eltorito-alt-boot')
-            xorrisoargs.append('-e')
-            xorrisoargs.append('--interval:appended_partition_2:all::')
-            xorrisoargs.append('-no-emul-boot')
-
-        #disable 32 bit bootloader if it was there.
-        grub_path = os.path.join(mntdir, 'boot', 'grub', 'i386-pc')
-        if os.path.exists(grub_path):
-            xorrisoargs.append('-m')
-            xorrisoargs.append(grub_path)
-        grub_path = os.path.join(tmpdir, 'boot', 'grub', 'i386-pc')
-        os.makedirs(grub_path)
-        for name in ['boot.img', 'core.img']:
-            with open(os.path.join(grub_path, name), 'w'):
-                pass
-
-        #include EFI binaries
+        # include EFI binaries
         if os.path.exists(os.path.join(mntdir, 'efi.factory')) and \
            not os.path.exists(os.path.join(mntdir, 'efi')):
             xorrisoargs.append('-m')
             xorrisoargs.append('efi.factory')
             shutil.copytree(os.path.join(mntdir, 'efi.factory'), os.path.join(tmpdir, 'efi'))
 
-        #Renerate UUID
+        # Renerate UUID
         os.mkdir(os.path.join(tmpdir, '.disk'))
         os.mkdir(os.path.join(tmpdir, 'casper'))
         self.start_pulsable_progress_thread(_('Regenerating UUID / Rebuilding initramfs'))
         (old_initrd,
          old_uuid) = create_new_uuid(os.path.join(mntdir, 'casper'),
-                        os.path.join(mntdir, '.disk'),
-                        os.path.join(tmpdir, 'casper'),
-                        os.path.join(tmpdir, '.disk'))
+                                     os.path.join(mntdir, '.disk'),
+                                     os.path.join(tmpdir, 'casper'),
+                                     os.path.join(tmpdir, '.disk'))
         self.stop_progress_thread()
+
         xorrisoargs.append('-m')
         xorrisoargs.append(os.path.join('.disk', old_uuid))
         xorrisoargs.append('-m')
         xorrisoargs.append(os.path.join('casper', old_initrd))
 
-        #Renew .disk/ubuntu_dist_channel for ubuntu-report
+        # Renew .disk/ubuntu_dist_channel for ubuntu-report
         ubuntu_dist_channel = os.path.join(mntdir, '.disk', 'ubuntu_dist_channel')
         if os.path.exists(ubuntu_dist_channel) and platform and revision:
             xorrisoargs.append('-m')
@@ -1074,7 +1037,7 @@ arch %s, distributor_str %s, bto_platform %s" % (bto_version, distributor, relea
                     else:
                         target.write(line)
 
-        #Restore .disk/info
+        # Restore .disk/info
         info_path = os.path.join(mntdir, '.disk', 'info.recovery')
         if os.path.exists(info_path):
             xorrisoargs.append('-m')
@@ -1177,8 +1140,11 @@ arch %s, distributor_str %s, bto_platform %s" % (bto_version, distributor, relea
                             self.report_progress(_('Building ISO'), progress[:-1])
             retval = seg1.poll()
         if retval != 0:
+            for i, k in enumerate(xorrisoargs):
+                if ' ' in k:
+                    xorrisoargs[i] = '"' + k + '"'
             logging.error(" create_ubuntu: xorriso exited with a nonstandard return value.")
-            logging.error("  cmd: %s" % xorrisoargs)
+            logging.error("  cmd: %s" % " ".join(xorrisoargs))
             logging.error("  stderror: %s" % pipe.readlines())
             logging.error("  error: %s" % output.strip())
             raise CreateFailed("ISO Building exited unexpectedly:\n%s" %

@@ -35,7 +35,8 @@ Depends: ${python3:Depends},
          uuid-runtime,
 Replaces: dell-artwork, dell-oobe
 Conflicts: dell-oobe
-Recommends: cryptsetup,
+Recommends: cd-boot-images-amd64,
+            cryptsetup,
             cryptsetup-bin,
             dvd+rw-tools,
             isolinux,
