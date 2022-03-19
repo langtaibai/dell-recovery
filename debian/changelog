@@ -1,3 +1,16 @@
+dell-recovery (1.68somerville1) jammy; urgency=medium
+
+  [ chris ]
+  * DHC: DHC+Ubuntu pop dialog with Nvidia Card Invisble the option Recovery DHC Hybird Client when launch Dell Recovery tool
+
+  [ Shih-Yuan Lee (FourDollars) ]
+  * collections.Callable is removed since Python 3.10.
+  * Preseed values for ubiquity/download_updates and ubiquity/use_nonfree to skip some page during the installation.
+  * Support the zstd compression format.
+  * Follow cd-boot-images-amd64/xorriso-cmd.txt to build the ISO image.
+
+ -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Sat, 19 Mar 2022 23:24:21 +0800
+
 dell-recovery (1.68) focal; urgency=medium
 
   [ Alex Tu ]
