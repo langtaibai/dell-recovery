@@ -959,6 +959,9 @@ arch %s, distributor_str %s, bto_platform %s" % (bto_version, distributor, relea
         self.xml_obj.replace_node_contents('generator', check_version())
         self.xml_obj.write_xml(os.path.join(tmpdir, 'bto.xml'))
 
+        if not os.path.exists('/usr/share/cd-boot-images-amd64/xorriso-cmd.txt'):
+            raise CreateFailed("cd-boot-images-amd64 is not installed")
+
         # It needs to follow /usr/share/cd-boot-images-amd64/xorriso-cmd.txt to build the ISO image.
         xorrisoargs = [
             'xorriso',
