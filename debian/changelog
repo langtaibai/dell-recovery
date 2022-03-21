@@ -1,3 +1,9 @@
+dell-recovery (1.68somerville2) jammy; urgency=medium
+
+  * Prompt the error message when cd-boot-images-amd64 is not installed.
+
+ -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Mon, 21 Mar 2022 16:50:38 +0800
+
 dell-recovery (1.68somerville1) jammy; urgency=medium
 
   [ chris ]
