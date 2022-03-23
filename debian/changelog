@@ -1,3 +1,9 @@
+dell-recovery (1.68somerville3) jammy; urgency=medium
+
+  * It needs to use zstd -19 during image building.
+
+ -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Wed, 23 Mar 2022 11:47:37 +0800
+
 dell-recovery (1.68somerville2) jammy; urgency=medium
 
   * Prompt the error message when cd-boot-images-amd64 is not installed.
