@@ -576,7 +576,7 @@ def create_new_uuid(old_initrd_directory, old_casper_directory,
     elif new_compression == "lz4":
         compress_command = ["lz4", "-9", "-l"]
     elif new_compression == 'zstd':
-        compress_command = ['zstd', '-q', '-19', '-T0']
+        compress_command = ['zstd', '-q', '-1', '-T0']
     logging.debug("create_new_uuid: compression detected: %s" % new_compression)
     logging.debug("create_new_uuid: compression command: %s" % compress_command)
 
