@@ -1,3 +1,16 @@
+dell-recovery (1.64somerville16) focal; urgency=medium
+
+  * fix empty line in recovery-id and install-id file on DHC
+  * fix unexpected behavior on Ubuntu+DCA(Nvidia Graphic)
+  * Non-Exclusive language
+  * fix DHC+Ubuntu pop dialog with Nvidia Card
+  * Invisble the option Recovery DHC Hybird Client when launch Dell Recovery tool
+  * collections.Callable is removed since Python 3.10.
+  * Set recovery partition for DHC USB key install
+  * The USB storage needs 8GB free space now.
+
+ -- Crag Wang <crag.wang@dell.com>  Fri, 06 May 2022 16:28:10 +0800
+
 dell-recovery (1.64somerville15) focal; urgency=medium
 
   * update dell-recovery UI copyright and fix help link not found document issue
