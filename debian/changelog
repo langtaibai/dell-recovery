@@ -1,3 +1,10 @@
+dell-recovery (1.64somerville17) focal; urgency=medium
+
+  [ Yao Wei (魏銘廷) ]
+  * Add vendor check bypass
+
+ -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Wed, 11 May 2022 16:57:26 +0800
+
 dell-recovery (1.64somerville16) focal; urgency=medium
 
   * fix empty line in recovery-id and install-id file on DHC
