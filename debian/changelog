@@ -1,3 +1,11 @@
+dell-recovery (1.68somerville7) jammy; urgency=medium
+
+  * Add more files into uncheck_list and use the exclusion to skip some folders for md5sum.txt. (Closes: #166)
+  * Fix the content of ubuntu_dist_channel. (Closes: #170)
+  * Write preseed/dell-recovery.seed when it is not empty, remove the timestamp from it, and make it work friendly with casper-md5check.json.
+
+ -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Wed, 18 May 2022 16:30:31 +0800
+
 dell-recovery (1.68somerville6) jammy; urgency=medium
 
   [ chris ]
