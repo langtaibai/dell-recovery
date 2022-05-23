@@ -1,3 +1,9 @@
+dell-recovery (1.68somerville8) jammy; urgency=medium
+
+  * Fix the distro detection in RP.
+
+ -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Mon, 23 May 2022 15:48:53 +0800
+
 dell-recovery (1.68somerville7) jammy; urgency=medium
 
   * Add more files into uncheck_list and use the exclusion to skip some folders for md5sum.txt. (Closes: #166)
